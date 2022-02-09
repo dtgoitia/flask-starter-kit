@@ -1,0 +1,56 @@
+default_stages: [commit]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: trailing-whitespace
+        stages: [commit]
+      - id: end-of-file-fixer
+        stages: [commit]
+
+
+  # python
+  - repo: https://github.com/pycqa/flake8
+    rev: 3.9.0
+    hooks:
+      - id: flake8
+        files: '^api/.*\.py'
+        args: [--config, api/setup.cfg]
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.8.0
+    hooks:
+      - id: isort
+        files: '^api/.*\.py'
+        args: [api/setup.cfg]
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+      - id: black
+        files: '^api/.*\.py'
+
+  # HTML, CSS, TypeScript, Markdown
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.4.1
+    hooks:
+      - id: prettier
+        name: prettier (Markdown)
+        types: [file]
+        files: \.md$
+      - id: prettier
+        name: prettier (HTML & CSS)
+        types: [file]
+        files: \.(html|css)$
+      - id: prettier
+        name: prettier (TypeScript)
+        types: [file]
+        files: \.(ts|tsx)$
+
+  # - repo: local
+  #   hooks:
+  #     - id: build-webapp
+  #       name: Build webapp before pushing to master
+  #       entry: scripts/build_webapp_only_in_master.sh
+  #       verbose: true
+  #       language: system
+  #       stages: [push]
+  #       pass_filenames: false
